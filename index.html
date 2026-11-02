@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>공구 제안서</title>
+<meta name="description" content="판매 1건당 수익과 조건을 확인해 보세요">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="판다인 파트너스">
+<meta property="og:title" content="공구 제안서">
+<meta property="og:description" content="판매 1건당 수익과 조건을 확인해 보세요">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="공구 제안서">
+<meta name="twitter:description" content="판매 1건당 수익과 조건을 확인해 보세요">
+<link rel="preconnect" href="https://script.google.com" crossorigin>
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fbf7f0;color:#6b625a;font:15px/1.6 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;text-align:center}
+.box{padding:0 20px}
+.sp{width:28px;height:28px;margin:0 auto 12px;border:3px solid #e8dfd2;border-top-color:#a46848;border-radius:50%;animation:r .8s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.sp{animation:none}}
+</style>
+</head>
+<body>
+<div class="box" id="box"><div class="sp" aria-hidden="true"></div>제안서를 여는 중…</div>
+<script>
+// 판다인 공구 제안서 입구(브랜드 공통) — https://partners.pandain.co.kr/{코드} (GitHub Pages, 저장소 davidpandain/pandain-partner)
+//  브랜드(모아람·사운드판다·오로셀레스테…)는 주소가 아니라 제안서 안에서 정해진다 — 링크 미리보기 글자도 브랜드 없이
+//  원본: davidpandain/cafe24-meta-sync 의 partner/entry/index.html — 404.html 은 이 파일과 글자 그대로 같다(/{코드} 주소는 GitHub Pages 가 404.html 로 연다).
+//  이 파일은 거의 바뀌지 않는다: 주소의 코드를 읽어 운영실 서버(구글 Apps Script)의 공개 함수 partnerPage 에 제안서를 묻고, 받은 화면을 그대로 그린다.
+//  화면 틀(템플릿)은 운영실 서버가 공유드라이브의 검증된 파일(배포 로봇이 올린 것)로 만들어 주므로, 템플릿을 고쳐도 이 입구는 다시 올리지 않는다.
+var API = "https://script.google.com/macros/s/AKfycbxN77b5Y1rzmnkr7O8IIM2KnXt5G0PSeVwhcimVZHKSnayv_PpRHGtcza-tuhqK8tSb/exec";
+var NONE = "이 제안서는 지금 볼 수 없어요";
+function none() { document.getElementById("box").textContent = NONE; }
+var FRAMED = false;
+try { FRAMED = window.top !== window.self && window.top.location.origin !== location.origin; } catch (e) { FRAMED = true; }
+var m = /^\/(?:p\/)?([A-Za-z0-9]{10,40})\/?$/.exec(location.pathname) || /[?&]c=([A-Za-z0-9]{10,40})/.exec(location.search);
+function get(n) {
+  return fetch(API, { method: "POST", body: JSON.stringify({ f: "partnerPage", a: [m[1]] }) }).then(function (r) { return r.json(); })
+    .catch(function (e) { if (n > 1) return new Promise(function (ok) { setTimeout(ok, 900); }).then(function () { return get(n - 1); }); throw e; });
+}
+function show(h) { document.open(); document.write(h); document.close(); }
+if (FRAMED || !m) none();
+else get(3).then(function (j) {
+  if (!j || !j.ok || !j.r || !j.r.html) return none();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { show(j.r.html); }); else show(j.r.html);
+}).catch(none);
+</script>
+</body>
+</html>
